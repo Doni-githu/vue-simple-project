@@ -1,11 +1,14 @@
 <template>
     <div>
-        <h1>Todos view</h1>
+        <Todos />
     </div>
 </template>
 <script>
+import Todos from '@/components/Todos.vue';
 export default {
-    
+    components: {
+        Todos
+    }
 }
 </script>
 <style>

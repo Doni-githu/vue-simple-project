@@ -1,11 +1,12 @@
 <template>
     <div>
-        <h1>Albums page</h1>
+        <Album />
     </div>
 </template>
 <script>
+import Album from '@/components/Album.vue';
 export default {
-    
+    components: { Album }
 }
 </script>
 <style>

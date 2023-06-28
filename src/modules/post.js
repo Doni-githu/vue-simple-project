@@ -14,20 +14,35 @@ const mutations = {
     },
     failurGetPosts(state){
         state.isLoading = false
-    }
+    },
+    startUpdatePost(state){
+        state.isLoading = true
+    },
+    successUpdatePost(state){
+        state.isLoading = false
+    },
 }
 
 const actions = {
-    posts(context){
+    posts(context, limit=10){
         return new Promise((resolve, reject) => {
             context.commit('startGetPosts')
-            Post.getAll()
+            Post.getAll(limit)
                 .then((res) => {
                     resolve(res.data)
                     context.commit('successGetPosts', res.data)
                 }).catch(err => {
                     reject(err)
                     context.commit('failurGetPosts')
+                })
+        })
+    },
+    update(context, {id, post}){
+        return new Promise((resolve, reject) => {
+            context.commit('startUpdatePost')
+            Post.updateOne(id, post)
+                .then((res) => {
+                    console.log(res)
                 })
         })
     }
