@@ -205,4 +205,10 @@ export default {
     text-overflow: ellipsis;
     color: whitesmoke;
 }
+
+@media only screen and (max-width:527px) {
+    .my-card{
+        width: 200px;
+    }
+}
 </style>

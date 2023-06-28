@@ -402,6 +402,7 @@ export default {
     position: fixed;
     top: 50%;
     left: 50%;
+    z-index: 9999;
     background-color: #d90429;
     padding: 20px;
     transform: translate(-50%, -50%);
@@ -589,5 +590,53 @@ p {
 
 .fa-x {
     color: white;
+}
+
+@media only screen and (max-width:1232px) {
+    .navigate{
+        left: 0;
+    }
+}
+
+@media only screen and (max-width:1000px) {
+    .navigate{
+        top: 10%;
+    }
+}
+
+@media only screen and (max-width: 976px) {
+    .filter{
+        display: grid;
+        left: 470px;
+        grid-template-columns: auto;
+    }
+    .un{
+        height: 200px;
+    }
+}
+
+@media only screen and (max-width:681px) {
+    .modal{
+        width: 80%;
+    }
+
+    .modelForm{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width:554px) {
+    .navigate{
+        left: 30% !important;
+    }
+
+    .filter{
+        top: 350px;
+        left: 50%;
+    }
+
+    .un{
+        height: 400px;
+    }
 }
 </style>
