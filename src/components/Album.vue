@@ -137,6 +137,26 @@ export default {
         })
         this.userName = newArray
     },
+    watch: {
+        albums(newPosts) {
+            const str = []
+
+            newPosts.forEach((item) => {
+                str.push(item.user.name)
+            })
+
+            const newSet = new Set(str)
+            const getArray = Array.from(newSet)
+            const newArray = getArray.map((item, idx) => {
+                return {
+                    txt: item,
+                    isSelect: false,
+                    id: idx
+                }
+            })
+            this.userName = newArray
+        },
+    },
     methods: {
         getAlbums(e) {
             this.limit = e.target.value;

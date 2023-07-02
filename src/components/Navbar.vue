@@ -16,4 +16,8 @@ export default {
 
 }
 </script>
-<style scoped></style>
+<style scoped>
+.router-link-active{
+    opacity: .7;
+}
+</style>
