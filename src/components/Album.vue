@@ -329,6 +329,7 @@ export default {
 
 .relative:hover {
     border-color: var(--bs-primary);
+    background-color: #fff;
 }
 
 

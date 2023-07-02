@@ -7,13 +7,16 @@
             </div>
             <div v-show="isShow" class="absolute">
                 <label class="label2" v-for="(item, idx) in userName" :key="idx">
-                    <input type="checkbox" :value="item.txt" class="hid">
+                    <input  type="checkbox" :value="item.txt" class="hid">
                     <span class="fake"></span>
-                    <span @click="e => getName(e)">{{ item.txt }}</span>
+                    <span @click="e => getName(e, item.id)" :class="{ 'active123': filterName.includes(item.txt) }"
+                        style="width: 100%; ">{{
+                            item.txt
+                        }}</span>
                 </label>
             </div>
         </div>
-        <Input :placeholder="'Имя пользователя'" v-model="termUserName" />
+        <Input :placeholder="'Его ID'" v-model="termID" />
     </div>
     <div class="un"> </div>
     <div class="navigate">
@@ -35,8 +38,10 @@
     </div>
     <template v-if="!isLoading">
         <div class="cards">
-            <PostCard v-for="post in FilterList(FilterList(FilterListByFilterName(posts), termTitle, 'title'), termID, 'id')" :key="post.id" :post="post" @onUpdate="onUpdateHandler"
-                @onComment="onCommentHamdler" @onSelect="onSelect" @onDelete="onDeleteHandler" />
+            <PostCard
+                v-for="post in FilterList(FilterList(FilterListByFilterName(posts), termTitle, 'title'), termID, 'id')"
+                :key="post.id" :post="post" @onUpdate="onUpdateHandler" @onComment="onCommentHamdler" @onSelect="onSelect"
+                @onDelete="onDeleteHandler" />
         </div>
     </template>
     <template v-else>
@@ -145,7 +150,6 @@ export default {
                 })
         }
         this.limit = this.posts.length
-
         const str = []
 
         this.posts.forEach((item) => {
@@ -154,13 +158,34 @@ export default {
 
         const newSet = new Set(str)
         const getArray = Array.from(newSet)
-        const newArray = getArray.map(item => {
+        const newArray = getArray.map((item, idx) => {
             return {
                 txt: item,
-                isSelect: false
+                isSelect: false,
+                id: idx
             }
         })
         this.userName = newArray
+    },
+    watch: {
+        posts(newPosts) {
+            const str = []
+
+            newPosts.forEach((item) => {
+                str.push(item.user.name)
+            })
+
+            const newSet = new Set(str)
+            const getArray = Array.from(newSet)
+            const newArray = getArray.map((item, idx) => {
+                return {
+                    txt: item,
+                    isSelect: false,
+                    id: idx
+                }
+            })
+            this.userName = newArray
+        }
     },
     methods: {
         FilterListByFilterName(array) {
@@ -249,14 +274,14 @@ export default {
             this.postName = found.title
             this.isSeeComment = true
         },
-        getName(e) {
+        getName(e, id) {
             let albums = this.userName.find(c => c.txt === e.target.textContent)
 
-            if (this.filterName.includes(albums)) {
-                this.filterName.shift()
-                return
+            if (!this.filterName.includes(albums)) {
+                this.filterName.push(albums)
+            } else {
+                this.filterName = this.filterName.filter(c => c.id !== id)
             }
-            this.filterName.push(albums)
         },
         async newArray(array) {
             const newArray = []
@@ -379,6 +404,10 @@ export default {
     height: 5px;
 }
 
+.active123 {
+    border: 1px solid var(--bs-primary) !important;
+}
+
 .commnets .comment {
     padding: 10px;
 }
@@ -464,23 +493,20 @@ export default {
 
 .relative:hover {
     border-color: var(--bs-primary);
+    background-color: #fff;
 }
 
 
 .absolute {
     width: 200px;
     position: absolute;
+    background-color: #fff;
     border: 1px solid var(--bs-primary);
     top: 100%;
     display: flex;
     flex-direction: column;
     left: 0;
 }
-
-.absolute .label2 .hid {
-    display: none !important;
-}
-
 
 
 .absolute .label2 {
@@ -490,6 +516,13 @@ export default {
     gap: 8px;
     align-items: center;
     height: 100%;
+}
+
+
+
+
+.absolute .label2 .hid {
+    display: none !important;
 }
 
 .absolute .label2 .fake {
@@ -520,7 +553,6 @@ export default {
     background-repeat: no-repeat;
     opacity: 0;
 }
-
 .navigate {
     position: fixed;
     padding: 10px;
@@ -593,49 +625,50 @@ p {
 }
 
 @media only screen and (max-width:1232px) {
-    .navigate{
+    .navigate {
         left: 0;
     }
 }
 
 @media only screen and (max-width:1000px) {
-    .navigate{
+    .navigate {
         top: 10%;
     }
 }
 
 @media only screen and (max-width: 976px) {
-    .filter{
+    .filter {
         display: grid;
         left: 470px;
         grid-template-columns: auto;
     }
-    .un{
+
+    .un {
         height: 200px;
     }
 }
 
 @media only screen and (max-width:681px) {
-    .modal{
+    .modal {
         width: 80%;
     }
 
-    .modelForm{
+    .modelForm {
         width: 100%;
     }
 }
 
 @media only screen and (max-width:554px) {
-    .navigate{
+    .navigate {
         left: 30% !important;
     }
 
-    .filter{
+    .filter {
         top: 350px;
         left: 50%;
     }
 
-    .un{
+    .un {
         height: 400px;
     }
 }
